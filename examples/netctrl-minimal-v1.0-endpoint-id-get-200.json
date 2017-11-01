@@ -7,5 +7,5 @@
     "192.168.16.26"
   ],
   "bandwidth": 10000000,
-  "role": "receiver"
+  "role": "both"
 }

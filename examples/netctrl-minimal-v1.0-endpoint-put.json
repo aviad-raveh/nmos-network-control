@@ -8,8 +8,8 @@
   ],
   "bandwidth": 10000000,
   "network_device": {
-    "chassis-id": "98:5A:EB:D3:B9:30",
-    "port-id": "Ethernet2/2"
+    "chassis_id": "98:5A:EB:D3:B9:30",
+    "port_id": "Ethernet2/2"
   },
   "role": "sender"
 }
