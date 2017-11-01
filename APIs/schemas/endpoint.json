@@ -3,92 +3,68 @@
   "type": "object",
   "required": [
     "id",
-    "version",
-    "chassis_id",
-    "port_id",
-    "network_device"
+    "mac_address",
+    "ip_addresses",
+    "bandwidth"
   ],
   "properties": {
     "id": {
       "type": "string",
       "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
     },
-    "version": {
-      "description": "String formatted TAI timestamp (<seconds>:<nanoseconds>) indicating precisely when an attribute of the endpoint last changed",
-      "type": "string",
-      "pattern": "^[0-9]+:[0-9]+$"
-    },
     "label": {
       "description": "Freeform string label for the endpoint",
       "type": "string"
     },
-    "description": {
-      "description": "Detailed description of the endpoint",
-      "type": "string"
+    "mac_address": {
+      "type": "string",
+      "description": "MAC address of the endpoint.",
+      "pattern": "^([0-9A-Fa-f]{2}[-]){5}([0-9A-Fa-f]{2})$"
     },
-    "tags": {
-      "description": "Key value set of freeform string tags to aid in filtering endpoints, if necessary. Values should be represented as an array of strings. Can be empty.",
+    "ip_addresses": {
       "type": "array",
+      "description": "IP addresses the endpoint can assume to send/receive flows. Each IP must be unique in the network.",
       "items": {
-        "type": "string"
-      }
-    },
-    "chassis_id": {
-      "description": "Chasis id of the endpoint. LLDP is one way the chassid id should be passed to the network. For virtual system it can be null.",
-      "type": ["string", "null"],
+        "type": "string",
         "anyOf": [
           {
-            "type": "string",
-            "pattern": "^([0-9a-f]{2}[-]){5}([0-9a-f]{2})$",
-            "description": "When the Chassis ID is a MAC address, use this format"
+            "format": "ipv4"
           },
           {
-            "type": "string",
-            "pattern": "^.+$",
-            "description": "When the Chassis ID is anything other than a MAC address, a freeform string may be used"
-          },
-          {
-            "type": "null",
-            "description": "When the Chassis ID is unavailable it should be set to null"
+            "format": "ipv6"
           }
-        ]
+        ],
+        "minItems": 1,
+        "uniqueItems": true
+      }
     },
-    "port_id": {
-      "description": "Port ID of the endpoint. Similar to chassis-id, it can be advertised in LLDP/ARP from the endpoint. Must be a MAC address",
-      "type": "string",
-      "pattern": "^([0-9A-Fa-f]{2}[-]){5}([0-9A-Fa-f]{2})$"
+    "bandwidth": {
+      "type": "number",
+      "description": "Maximum bandwidth in kbps required by all the multicast groups combined."
     },
     "network_device": {
       "type": "object",
+      "description": "Peer network device (switch) details. If not provided, it's assumed to be discovered using other protocols (LLDP).",
       "properties": {
-        "oneOf": [
-          {
-            "mgmt_ip": {
-              "type": "string",
-              "description": "Unique management IP address for the device. If provided, IP address must uniquely identify the network device.",
-              "anyOf": [
-                {
-                  "format": "ipv4"
-                },
-                {
-                  "format": "ipv6"
-                }
-              ]
-            }
-          },
-          {
-            "mac_address": {
-              "type": "string",
-              "description": "Unique mac address for the device. If provided, mac-address must uniquely identify the network device.",
-              "pattern": "^([0-9A-Fa-f]{2}[-]){5}([0-9A-Fa-f]{2})$"
-            }
-          }
-        ],
-        "interface": {
+        "chassis-id": {
           "type": "string",
-          "description": "Network device interface or switch interface. If not provided, it's assumed to be discovered using other protocols or out of band."
+          "description": "MAC address for the peer network device. If provided, mac-address must uniquely identify the network device.",
+          "pattern": "^([0-9A-Fa-f]{2}[-]){5}([0-9A-Fa-f]{2})$"
+        },
+        "port-id": {
+          "type": "string",
+          "description": "The ifAlias of the peer network device the end point is connected to. If provided, interface must uniquely identify the switch port."
         }
       }
     }
+  },
+  "role": {
+    "description": "The role of the endpoint as a sender or receiver.",
+    "type": "string",
+    "enum": [
+      "sender",
+      "receiver"
+    ],
+    "default": "receiver"
   }
 }

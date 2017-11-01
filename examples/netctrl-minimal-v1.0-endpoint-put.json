@@ -1,0 +1,15 @@
+{
+  "id": "45be3032-eb31-442a-986b-faa11b29e399",
+  "label": "Sample Video receiver endpoint for network flow supporting 10 Gbps link with net details",
+  "mac_address": "BA:38:8F:B6:AB:F1",
+  "ip_addresses": [
+    "192.168.16.24",
+    "192.168.16.26"
+  ],
+  "bandwidth": 10000000,
+  "network_device": {
+    "chassis-id": "98:5A:EB:D3:B9:30",
+    "port-id": "Ethernet2/2"
+  },
+  "role": "sender"
+}
