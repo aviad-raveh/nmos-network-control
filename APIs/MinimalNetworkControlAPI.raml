@@ -27,6 +27,52 @@ documentation:
         body:
           example: !include ../examples/netctrl-minimal-v1.0-base-get-200.json
 
+/endpoints/{id}:
+  displayName: Endpoints
+  uriParameters:
+    id:
+      type: string
+      pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+      description: The globally unique identifier for the endpoint.
+      example: a48937c5-1e0b-4ef1-9aab-52d332eda820
+  get:
+    description: Retrieve a single endpoint with the specified guid.
+    responses:
+      200:
+        body:
+          type: !include schemas/netctrl-minimal-v1.0-endpoint-id.json
+          example: !include ../examples/netctrl-minimal-v1.0-endpoint-id-get-200.json
+  put:
+    description: >
+      Register a new endpoint.
+    body:
+      type: !include schemas/netctrl-minimal-v1.0-endpoint-id.json
+      example: !include ../examples/netctrl-minimal-v1.0-endpoint-put.json
+    responses:
+      201:
+        description: >
+          Returned when the endpoint is registered successfully.
+          No response body.
+        body:
+          type: EmptySchema
+      400:
+        description: >
+          Returned when the PUT request is incorrectly formatted or has missing or incorrect values.
+        body:
+          type: ErrorSchema
+  delete:
+    description: Delete the endpoint with the specified guid.
+    responses:
+      204:
+        description: >
+          Returned when the endpoint is successfully deleted. No response body.
+        body:
+          type: EmptySchema
+      404:
+        description: Returned when the endpoint with guid does not exist.
+        body:
+          type: ErrorSchema
+
 /network-flows/{id}:
   displayName: Network flow
   uriParameters:

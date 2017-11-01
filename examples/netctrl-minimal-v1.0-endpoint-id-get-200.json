@@ -1,0 +1,11 @@
+{
+  "id": "a48937c5-1e0b-4ef1-9aab-52d332eda820",
+  "label": "Sample Video endpoint for network flow supporting 10 Gbps link",
+  "mac_address":"BA:38:8F:B6:AB:F1",
+  "ip_addresses": [
+    "192.168.16.24",
+    "192.168.16.26"
+  ],
+  "bandwidth": 10000000,
+  "role": "receiver"
+}

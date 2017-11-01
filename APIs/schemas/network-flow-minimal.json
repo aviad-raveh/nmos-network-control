@@ -20,7 +20,7 @@
     },
     "bandwidth": {
       "type": "number",
-      "description": "Average bandwidth requirement in bps."
+      "description": "Average bandwidth requirement in kbps."
     },
     "dscp": {
       "type": "string",
